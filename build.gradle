@@ -1,0 +1,46 @@
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin:'application'
+
+sourceCompatibility = 1.8
+
+tasks.withType(JavaCompile){
+    options.encoding = 'UTF-8'    
+}
+
+
+repositories {
+
+    jcenter()
+}
+
+javadoc{
+    options.encoding = 'UTF-8' 
+}
+
+dependencies {
+    // https://mvnrepository.com/artifact/mysql/mysql-connector-java
+	compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.44'
+	
+		// https://mvnrepository.com/artifact/org.mybatis/mybatis
+	compile group: 'org.mybatis', name: 'mybatis', version: '3.4.5'
+	
+    // Use JUnit test framework
+    testImplementation 'junit:junit:4.12'
+}
+
+jar{
+    version=1.0
+    //application으로 개발 할 경우(apply plugin: 'application') main()메서드가 있는 클래스를 반드시 지정
+    mainClassName='kr.or.dgit.jdbc_library_project_setting.JdbcSetting'
+    baseName='JdbcSetting'
+    appendix='bin'
+    
+    manifest{
+        attributes 'Title':baseName, 'Version':version, 'Main-Class':mainClassName
+    }
+    //실행가능한 jar파일 설정
+    dependsOn configurations.runtime
+
+}

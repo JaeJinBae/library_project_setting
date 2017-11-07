@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Title: JdbcSetting
+Version: 1.0
+Main-Class: kr.or.dgit.jdbc_library_project_setting.JdbcSetting
+
