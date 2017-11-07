@@ -1,0 +1,36 @@
+-- 반납된 경우
+-- 대여테이블 정보 삭제 후 반납테이블 insert
+-- 연체확인후 user update
+
+use library;$$
+
+create trigger rentalBook_delete_tri
+before delete on rentalBook
+for each row 
+begin
+   
+   declare curdays int;
+   set curdays = datediff(old.returnday,curdate());
+   
+   if(curdays <0) then
+      update users
+      set delayDay = -curdays
+      where user_Id = old.user_Id;
+   end if;
+   insert into history
+   values(old.book_Code,old.user_id,old.rentalDay,curdate());
+end $$
+
+
+
+-- 대여버튼 클릭시 트리거
+-- 총대여일 +1, 수량 -1
+
+create trigger rentBook_insert_tri
+after insert on rentalBook
+for each row 
+begin
+   update book set amount = amount - 1, all_rentel_count = all_rentel_count + 1 where book_Code = new.book_Code;
+   
+end $$
+

@@ -4,6 +4,7 @@ drop database if exists library;
 CREATE database library;
 
 use library;
+
 -- 도서
 CREATE TABLE book (
    book_code        VARCHAR(13) NOT NULL,
@@ -17,27 +18,27 @@ CREATE TABLE book (
 
 
 -- 도서
-ALTER TABLE library.book ADD CONSTRAINT
+ALTER TABLE book ADD CONSTRAINT
    PRIMARY KEY (
          book_code
       );
 
 -- 도서대분류
-CREATE TABLE library.book_big_group (
+CREATE TABLE book_big_group (
    big_group           VARCHAR(10) NOT NULL, 
    book_big_group_name VARCHAR(20) NULL
    );
 
 
 -- 도서대분류
-ALTER TABLE library.book_big_group
+ALTER TABLE book_big_group
    ADD CONSTRAINT
       PRIMARY KEY (
          big_group 
       );
 
 -- 도서중분류
-CREATE TABLE library.book_middle_group (
+CREATE TABLE book_middle_group (
    middle_gruop           VARCHAR(10) NOT NULL, 
    big_group              VARCHAR(10) NULL, 
    book_middle_group_name VARCHAR(100) NULL
@@ -45,7 +46,7 @@ CREATE TABLE library.book_middle_group (
 
 
 -- 히스토리
-CREATE TABLE library.history (
+CREATE TABLE history (
    book_code     VARCHAR(13) NULL, 
    user_id       VARCHAR(50) NULL, 
    rentalday     DATE        NULL, 
@@ -88,21 +89,21 @@ CREATE INDEX idx_post_sigungu
    );
 
 -- 출판사
-CREATE TABLE library.publisher (
+CREATE TABLE publisher (
    public_code VARCHAR(50) NOT NULL, 
    public_name VARCHAR(50) NULL    
 );
 
 
 -- 출판사
-ALTER TABLE library.publisher
+ALTER TABLE publisher
    ADD CONSTRAINT
       PRIMARY KEY (
          public_code
       );
 
 -- 대여현황
-CREATE TABLE library.rentalbook (
+CREATE TABLE rentalbook (
    rentalday DATE        NOT NULL , 
    book_code VARCHAR(13) NULL,
    user_id   VARCHAR(50) NULL, 
@@ -111,21 +112,21 @@ CREATE TABLE library.rentalbook (
 
 
 -- 유저등급
-CREATE TABLE library.userrank (
+CREATE TABLE userrank (
    rank_code INT(11)     NOT NULL,
    rank_name VARCHAR(50) NULL
 );
 
 
 -- 유저등급
-ALTER TABLE library.userrank
+ALTER TABLE userrank
    ADD CONSTRAINT
       PRIMARY KEY (
          rank_code
       );
 
 -- 유저
-CREATE TABLE library.users (
+CREATE TABLE users (
    user_id    VARCHAR(50) NOT NULL, 
    user_name  VARCHAR(50) NULL, 
    user_pw    VARCHAR(50) NULL,
@@ -138,19 +139,19 @@ CREATE TABLE library.users (
 );
 
 -- 유저
-ALTER TABLE library.users
+ALTER TABLE users
    ADD CONSTRAINT
       PRIMARY KEY (
          user_id
       );
 
 -- 도서
-ALTER TABLE library.book
+ALTER TABLE book
    ADD CONSTRAINT FK_publisher_TO_book
       FOREIGN KEY (
          public_name
       )
-      REFERENCES library.publisher (
+      REFERENCES publisher (
          public_code
       ),
    ADD INDEX FK_publisher_TO_book (
@@ -158,12 +159,12 @@ ALTER TABLE library.book
    );
 
 -- 도서중분류
-ALTER TABLE library.book_middle_group
+ALTER TABLE book_middle_group
    ADD CONSTRAINT FK_book_big_group_TO_book_middle_group 
       FOREIGN KEY (
          big_group
       )
-      REFERENCES library.book_big_group (
+      REFERENCES book_big_group (
          big_group
       ),
    ADD INDEX FK_book_big_group_TO_book_middle_group (
@@ -171,12 +172,12 @@ ALTER TABLE library.book_middle_group
    );
 
 -- 히스토리
-ALTER TABLE library.history
+ALTER TABLE history
    ADD CONSTRAINT FK_book_TO_history
       FOREIGN KEY (
          book_code
       )
-      REFERENCES library.book (
+      REFERENCES book (
          book_code
       ),
    ADD INDEX FK_book_TO_history (
@@ -184,12 +185,12 @@ ALTER TABLE library.history
    );
 
 -- 히스토리
-ALTER TABLE library.history
+ALTER TABLE history
    ADD CONSTRAINT FK_users_TO_history 
       FOREIGN KEY (
          user_id
       )
-      REFERENCES library.users (
+      REFERENCES users (
          user_id
       ),
    ADD INDEX FK_users_TO_history (
@@ -197,12 +198,12 @@ ALTER TABLE library.history
    );
 
 -- 대여현황
-ALTER TABLE library.rentalbook
+ALTER TABLE rentalbook
    ADD CONSTRAINT FK_book_TO_rentalbook
       FOREIGN KEY (
          book_code
       )
-      REFERENCES library.book (
+      REFERENCES book (
          book_code
       ),
    ADD INDEX FK_book_TO_rentalbook (
@@ -210,12 +211,12 @@ ALTER TABLE library.rentalbook
    );
 
 -- 대여현황
-ALTER TABLE library.rentalbook
+ALTER TABLE rentalbook
    ADD CONSTRAINT FK_users_TO_rentalbook
       FOREIGN KEY (
          user_id
       )
-      REFERENCES library.users (
+      REFERENCES users (
          user_id
       ),
    ADD INDEX FK_users_TO_rentalbook (
@@ -223,45 +224,20 @@ ALTER TABLE library.rentalbook
    );
 
 -- 유저
-ALTER TABLE library.users
+ALTER TABLE users
    ADD CONSTRAINT FK_userrank_TO_users 
       FOREIGN KEY (
          rank_code
       )
-      REFERENCES library.userrank (
+      REFERENCES userrank (
          rank_code
       ),
    ADD INDEX FK_userrank_TO_users (
       rank_code
    );
--- 반납된 경우
--- 대여테이블 정보 삭제 후 반납테이블 insert
--- 연체확인후 user update
 
 
-create trigger rentalBook_delete_tri
-	before delete on rentalBook
-	for each row 
-	begin
-	declare curdays int
-	set curdays = datediff(old.returnday,curdate())
-	if(curdays <0) then
-	update users
-	set delayDay = -curdays
-	where user_Id = old.user_Id
-	end if
-	insert into history
-	values(old.book_Code,old.user_id,old.rentalDay,curdate()); end;
 
-
--- 대여버튼 클릭시 트리거
--- 총대여일 +1, 수량 -1
-
-create trigger rentBook_insert_tri
-	after insert on rentalBook
-	for each row 
-	begin
-	update book set amount = amount - 1, all_rentel_count = all_rentel_count + 1 where book_Code = new.book_Code; end;
 
 -- 대여현황테이블뷰
 create view rental_live as
