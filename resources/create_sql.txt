@@ -243,7 +243,7 @@ create trigger rentalBook_delete_tri
 	before delete on rentalBook
 	for each row 
 	begin
-	declare curdays int;
+	declare curdays int
 	set curdays = datediff(old.returnday,curdate())
 	if(curdays <0) then
 	update users
