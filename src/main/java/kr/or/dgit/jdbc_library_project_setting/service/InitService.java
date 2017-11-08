@@ -1,10 +1,13 @@
 package kr.or.dgit.jdbc_library_project_setting.service;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.File;
+import java.io.File;import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 
 import kr.or.dgit.jdbc_library_project_setting.dao.DatabaseDao;
 
@@ -22,7 +25,7 @@ public class InitService implements DbService {
 	@Override
 	public void service() {
 		File f = new File(System.getProperty("user.dir") + "\\resources\\create_sql.txt");
-		try (BufferedReader br = new BufferedReader(new FileReader(f));) {
+		try(BufferedReader br=new BufferedReader(new InputStreamReader(new FileInputStream(f), "utf-8"))){
 			StringBuilder statement = new StringBuilder();
 			for (String line; (line = br.readLine()) != null;) {
 				if (!line.isEmpty() && !line.startsWith("--")) {
@@ -34,10 +37,15 @@ public class InitService implements DbService {
 					statement.setLength(0);
 				}
 			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 	}
 }
