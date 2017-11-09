@@ -3,12 +3,12 @@ package kr.or.dgit.jdbc_library_project_setting;
 public class Config {
 	public static final String DB_NAME = "library";
 
-	public static final String[] TABLE_NAME = { "book", "book_big_group","book_middle_group", "histrory","post", "publisher", "rentalbook", "users"};
+	public static final String[] TABLE_NAME = { "book", "book_big_group","book_middle_group", "history","post", "publisher", "rentalbook", "users"};
 
 	private static final String USER_DIR = System.getProperty("user.dir") + "\\";
 
 	public static final String EXPORT_DIR = USER_DIR + "BackupFiles\\";
-	public static final String IMPORT_DIR = USER_DIR + "DataFiles\\";
+	public static final String IMPORT_DIR = USER_DIR + "BackupFiles\\";
 	public static final String CREATE_SQL = USER_DIR + "resources\\create_sql.txt";
 
 	public static final String getFilePath(String tableName, boolean isExport) {

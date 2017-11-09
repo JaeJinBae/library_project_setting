@@ -25,9 +25,7 @@ public class BtnAction extends AbstractAction {
 		switch(e.getActionCommand()){
 		case "초기화":
 			service=InitService.getInstance();
-
 			service2=InitServiceTrigger.getInstance();
-
 			break;
 		case "백업":
 			service=ExportService.getInstance();
@@ -37,7 +35,11 @@ public class BtnAction extends AbstractAction {
 			break;
 		}
 		service.service();
-		service2.service();
 		JOptionPane.showMessageDialog(null, e.getActionCommand()+"가(이) 완료 되었습니다.");
+		if(service2==null) {
+			return;
+		}
+		service2.service();
+		
 	}
 }
