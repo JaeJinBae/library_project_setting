@@ -377,3 +377,9 @@ insert into book_middle_group values
 ('09','J0','전기');
 
 insert into userrank values('1','관리자'),('2','회원'),('3','블랙리스트');
+insert into publisher values
+('0001','한국경제신문i'),
+('0002','문학동네'),
+('0003','이지퍼블리싱'),
+('0004','한빛미디어'),
+('0005','교학사');
