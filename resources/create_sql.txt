@@ -13,7 +13,7 @@ CREATE TABLE book (
    public_name      VARCHAR(50) NULL,     
    price            INT(11)     NULL,     
    amount           INT(11)     NULL,     
-   all_rentel_count INT(11)     NULL     
+   all_rentel_count INT(11)    default 0     
 );
 
 
