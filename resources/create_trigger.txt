@@ -10,11 +10,11 @@ for each row
 begin
    
    declare curdays int;
-   set curdays = datediff(old.returnday,curdate());
+   set curdays = datediff(old.rentalDay,curdate());
    
    if(curdays <0) then
       update users
-      set delayDay = -curdays
+      set delay_day = -curdays
       where user_Id = old.user_Id;
    end if;
    insert into history
@@ -23,14 +23,5 @@ end $$
 
 
 
--- 대여버튼 클릭시 트리거
--- 총대여일 +1, 수량 -1
 
-create trigger rentBook_insert_tri
-after insert on rentalBook
-for each row 
-begin
-   update book set amount = amount - 1, all_rentel_count = all_rentel_count + 1 where book_Code = new.book_Code;
-   
-end $$
 
