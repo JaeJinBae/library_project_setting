@@ -104,7 +104,7 @@ ALTER TABLE publisher
 
 -- 대여현황
 CREATE TABLE rentalbook (
-   rentalday DATE        NOT NULL , 
+   rentalday DATE        NULL, 
    book_code VARCHAR(13) NULL,
    user_id   VARCHAR(50) NULL, 
    returnday DATE        NULL

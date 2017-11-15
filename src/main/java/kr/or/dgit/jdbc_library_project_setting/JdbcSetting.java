@@ -8,10 +8,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+@SuppressWarnings("serial")
 public class JdbcSetting extends JFrame {
 
 	private JPanel contentPane;
-
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
