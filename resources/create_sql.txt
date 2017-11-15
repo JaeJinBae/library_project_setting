@@ -39,7 +39,7 @@ ALTER TABLE book_big_group
 
 -- 도서중분류
 CREATE TABLE book_middle_group (
-   middle_gruop           VARCHAR(10) NOT NULL, 
+   middle_group           VARCHAR(10) NOT NULL, 
    big_group              VARCHAR(10) NULL, 
    book_middle_group_name VARCHAR(100) NULL
 );
