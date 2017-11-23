@@ -257,7 +257,7 @@ insert into book_big_group values
 ('A0','총류'),
 ('B0','철학'),
 ('C0','종교'),
-('D0','사화과학'),
+('D0','사회과학'),
 ('E0','자연과학'),
 ('F0','기술과학'),
 ('G0','예술'),
@@ -383,3 +383,11 @@ insert into publisher values
 ('0003','이지퍼블리싱'),
 ('0004','한빛미디어'),
 ('0005','교학사');
+
+DROP TABLE IF EXISTS library.reading RESTRICT;
+
+create table if not exists reading(
+	book_name varchar(50),
+	author varchar(50),
+	public_name varchar(50)
+);
