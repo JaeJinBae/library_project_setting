@@ -22,6 +22,15 @@ begin
 end $$
 
 
+create trigger rentBook_insert_tri
+after insert on rentalBook
+for each row 
+begin
+   update book set amount = amount - 1, all_rentel_count = all_rentel_count + 1 where book_Code = new.book_Code;
+   
+end $$
+
+
 
 
 
