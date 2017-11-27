@@ -171,18 +171,6 @@ ALTER TABLE book_middle_group
       big_group
    );
 
--- 히스토리
-ALTER TABLE history
-   ADD CONSTRAINT FK_users_TO_history 
-      FOREIGN KEY (
-         user_id
-      )
-      REFERENCES users (
-         user_id
-      ),
-   ADD INDEX FK_users_TO_history (
-      user_id
-   );
 
 -- 대여현황
 ALTER TABLE rentalbook
@@ -370,3 +358,11 @@ insert into publisher values
 ('0003','이지퍼블리싱'),
 ('0004','한빛미디어'),
 ('0005','교학사');
+
+DROP TABLE IF EXISTS library.reading RESTRICT;
+
+create table if not exists reading(
+	book_name varchar(50),
+	author varchar(50),
+	public_name varchar(50)
+);
