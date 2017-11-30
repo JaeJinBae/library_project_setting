@@ -1,4 +1,4 @@
--- library
+﻿-- library
 drop database if exists library;
 -- library
 CREATE database library;
@@ -170,8 +170,6 @@ ALTER TABLE book_middle_group
    ADD INDEX FK_book_big_group_TO_book_middle_group (
       big_group
    );
-
-
 -- 대여현황
 ALTER TABLE rentalbook
    ADD CONSTRAINT FK_book_TO_rentalbook
@@ -225,8 +223,6 @@ create view history_total as
 select b.book_Code,b.book_name,u.user_id,u.user_name,author,public_name,price,rentalDay,realreturnday
 from book b ,history h, users u
 where b.book_code = h.book_code and h.user_id = u.user_id;
-
-
 -- 도서 대분류
 -- 분류테이블 inset
 insert into book_big_group values
@@ -240,7 +236,6 @@ insert into book_big_group values
 ('H0','언어'),
 ('I0','문학'),
 ('J0','역사');
-
 insert into userrank values('1','관리자'),('2','회원'),('3','블랙리스트');
 insert into publisher values
 ('0001','한국경제신문i'),
@@ -248,8 +243,6 @@ insert into publisher values
 ('0003','이지퍼블리싱'),
 ('0004','한빛미디어'),
 ('0005','교학사');
-
-
 DROP TABLE IF EXISTS library.reading RESTRICT;
 
 create table if not exists reading(

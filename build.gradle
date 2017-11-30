@@ -42,5 +42,8 @@ jar{
     }
     //실행가능한 jar파일 설정
     dependsOn configurations.runtime
+        from {
+           configurations.compile.collect {it.isDirectory()? it: zipTree(it)}
+       }
 
 }
